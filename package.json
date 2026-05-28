@@ -1,0 +1,29 @@
+{
+  "name": "namasate_react",
+  "version": "1.0.0",
+  "description": "Learning the React Code",
+  "keywords": [
+    "React"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ravi-san/react.git"
+  },
+  "license": "ISC",
+  "author": "ravi Sankar",
+  "type": "commonjs",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ]
+}
