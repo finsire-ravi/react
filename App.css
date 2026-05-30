@@ -1,3 +1,25 @@
 .colorName {
   color: aqua;
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 20px;
+
+  border: 1px solid #ddd;
+}
+
+.logo img {
+  width: 80px;
+}
+
+.search input {
+  width: 300px;
+  padding: 8px;
+}
+
+.user {
+  font-size: 30px;
+}
