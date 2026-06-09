@@ -1,19 +1,23 @@
-import React from 'react'
+import React from "react";
 
 const BodyResCard = (props) => {
-  console.log(props)
-  const {resdata} = props
+  const { resdata } = props;
   return (
-   
-      <div className="res-card" >
-      <img className="res-card-image" src={resdata.logo.CDN_URL} alt="logo" />
-      <h2 className="res-card-title">{resdata.name}</h2>
-      <h3 className="res-card-cuisine">{resdata.cusine.join(",")}</h3>
-      <h4 className="res-card-rating">{resdata.rating} Star</h4>
-      <h4 className="res-card-esimated">{resdata.tragettime}</h4>
+    <div className="res-card">
+      <img
+        className="res-card-image"
+        src={
+          resdata.info.cloudinaryImageId.CDN_URL ||
+          "https://media-assets.swiggy.com/swiggy/image/upload/" +
+            resdata.info.cloudinaryImageId
+        }
+        alt="logo"
+      />
+      <h2 className="res-card-title">{resdata.info.name}</h2>
+      <h3 className="res-card-cuisine">{resdata.info.cuisines.join(",")}</h3>
+      <h4 className="res-card-rating">{resdata.info.avgRating} Star</h4>
     </div>
-    
-  )
-}
+  );
+};
 
 export default BodyResCard;
