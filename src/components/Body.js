@@ -3,6 +3,7 @@ import BodyResCard from "./Rescard";
 import { CDN_URL } from "../utils/constants";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router";
 
 const BodyCompoent = () => {
   const [listOfRestraunts, setListofRestraunts] = useState([]); // useState la [] ithu default ah varbile la assgin agirum
@@ -86,7 +87,10 @@ const BodyCompoent = () => {
       </div>
       <div className="res-container">
         {filterRestro.map((restro) => (
-          <BodyResCard key={restro.info.id} resdata={restro} />
+          <Link key={restro.info.id} to={"/restraunts/" + restro.info.id}>
+            {" "}
+            <BodyResCard resdata={restro} />
+          </Link>
         ))}
       </div>
     </div>
