@@ -367,4 +367,7 @@ use for onlien and offlien check pana online event lister eruka findo out for on
 
 Optimze the APP
 
-chuking, cde spillting, dymnaci budleing, dymnamic bundleing , 
+chuking, cde spillting, dymnaci budleing, dymnamic bundleing , lazyloading
+
+
+Lazy() it comes an react pakage - lazy hte is funtion

@@ -30,6 +30,9 @@ const HeaderCompoent = () => {
             <Link to="/contact">Contact us</Link>
           </li>
           <li>
+            <Link to="/gecories">Gecories</Link>
+          </li>
+          <li>
             <AiFillCalendar />
           </li>
           <button
