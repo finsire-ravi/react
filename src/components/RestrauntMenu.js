@@ -1,26 +1,14 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router";
-import { MENU_API_URL } from "../utils/constants";
+import useRestrauntMenu from "../utils/useRestrauntMenu";
 
 function RestrauntMenu() {
-  const [resMenu, setResMenu] = useState(null);
-
   const { resId } = useParams();
-  useEffect(() => {
-    fetchMenu();
-  }, [resId]);
+  console.log("RESTEESTED");
+  console.log(resId);
 
-  const fetchMenu = async () => {
-    try {
-      const fetchMenuApi = await fetch(MENU_API_URL + resId);
-      const convertJson = await fetchMenuApi.json();
-      setResMenu(convertJson?.data || convertJson);
-    } catch (error) {
-      setResMenu({ status: false });
-    }
-  };
+  const resMenu = useRestrauntMenu(resId);
 
   if (!resMenu) return <Shimmer />;
 
@@ -29,7 +17,7 @@ function RestrauntMenu() {
   const restaurantInfo =
     resMenu?.cards?.find((card) => card?.card?.card?.info)?.card?.card?.info ||
     {};
-
+  console.log(resMenu);
   const menuSections =
     resMenu?.cards
       ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)

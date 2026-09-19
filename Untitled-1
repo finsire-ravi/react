@@ -1,0 +1,52 @@
+
+this is one way
+const BodyResCard = (props) => {
+   
+  console.log(props)
+  const {resdata} = props
+  console.log(resdata.name)
+  
+  const {name, kyc_status, current_step, portfolio} = resdata
+
+  return (
+  
+     
+
+      <div className="res-card" >
+      {/* <img className="res-card-image" src={props.resLogo} alt="logo" /> */}
+      <h2 className="res-card-title">{name}</h2>
+      <h3 className="res-card-cuisine">{kyc_status}</h3>
+      <h4 className="res-card-rating">{current_step} Star</h4>
+      <h4 className="res-card-esimated">{portfolio.eligibility_limit}</h4>
+    </div>
+    
+  )
+}
+
+
+
+
+aonther way but first one best
+
+const BodyResCard = (props) => {
+   
+  console.log(props)
+  const {resdata} = props
+  console.log(resdata.name)
+
+  
+  return (
+  
+     
+
+      <div className="res-card" >
+      {/* <img className="res-card-image" src={props.resLogo} alt="logo" /> */}
+      <h2 className="res-card-title">{resdata.name}</h2>
+      <h3 className="res-card-cuisine">{resdata.kyc_status}</h3>
+      <h4 className="res-card-rating">{resdata.current_step} Star</h4>
+      <h4 className="res-card-esimated">{resdata?.portfolio.eligibility_limit}</h4>
+    </div>
+    
+  )
+}
+

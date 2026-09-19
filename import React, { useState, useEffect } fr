@@ -1,0 +1,94 @@
+import React, { useState, useEffect } from "react";
+import BodyResCard from "./Rescard";
+
+const BodyCompoent = () => {
+  const [restaurants, setRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    fetchAPiCall();
+  }, []);
+
+  const parseRestaurantData = (apiData) => {
+    const cards = apiData?.data?.cards ?? [];
+    const restaurantCard = cards.find(
+      (cardItem) =>
+        cardItem?.card?.card?.gridElements?.infoWithStyle?.restaurants,
+    );
+
+    const restaurants =
+      restaurantCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ??
+      [];
+
+    return restaurants.map(({ info }) => ({
+      id: info?.id,
+      name: info?.name,
+      cuisines: info?.cuisines ?? [],
+      avgRating: info?.avgRating ?? info?.avgRatingString,
+      totalRatings: info?.totalRatingsString,
+      costForTwo: info?.costForTwo,
+      locality: info?.locality,
+      areaName: info?.areaName,
+      deliveryTime: info?.sla?.deliveryTime,
+      slaString: info?.sla?.slaString,
+      discountHeader: info?.aggregatedDiscountInfoV3?.header,
+      discountSubHeader: info?.aggregatedDiscountInfoV3?.subHeader,
+      veg: info?.veg,
+      cloudinaryImageId: info?.cloudinaryImageId,
+    }));
+  };
+
+  const fetchAPiCall = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        "https://namastedev.com/api/v1/listRestaurants",
+      );
+      const json = await response.json();
+      const parsed = parseRestaurantData(json);
+      setRestaurants(parsed);
+      setFilteredRestaurants(parsed);
+    } catch (error) {
+      console.error("Failed to fetch restaurants", error);
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const showTopRated = () => {
+    setFilteredRestaurants(
+      restaurants.filter((restaurant) => Number(restaurant.avgRating) >= 4.5),
+    );
+  };
+
+  return (
+    <div className="body-component">
+      <div className="filter">
+        <button className="filter-btn-top-rated" onClick={showTopRated}>
+          Top Rated Restaurant
+        </button>
+      </div>
+
+      {isLoading ? (
+        <div className="loading">Loading restaurants...</div>
+      ) : hasError ? (
+        <div className="loading">
+          Could not load restaurants. Try again later.
+        </div>
+      ) : filteredRestaurants.length === 0 ? (
+        <div className="loading">No restaurants available.</div>
+      ) : (
+        <div className="res-container">
+          {filteredRestaurants.map((restro) => (
+            <BodyResCard key={restro.id} resdata={restro} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default BodyCompoent;

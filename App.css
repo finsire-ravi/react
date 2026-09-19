@@ -738,3 +738,7 @@ body {
     flex-direction: column;
   }
 }
+
+.user-data {
+  padding: 10px;
+}

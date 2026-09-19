@@ -1,15 +1,17 @@
 import React from "react";
 import BodyResCard from "./Rescard";
-import { CDN_URL } from "../utils/constants";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const BodyCompoent = () => {
   const [listOfRestraunts, setListofRestraunts] = useState([]); // useState la [] ithu default ah varbile la assgin agirum
 
   const [filterRestro, setFilterRestro] = useState([]);
   const [searchOfRestraunts, setSearchOfRestraunts] = useState("");
+  const [fetchError, setFetchError] = useState("");
+  const onlineStatus = useOnlineStatus();
 
   console.log(listOfRestraunts);
   console.log("LIST");
@@ -23,24 +25,46 @@ const BodyCompoent = () => {
   }, []);
 
   const fetchAPiCall = async () => {
-    const fetchApiCall = await fetch(
-      "https://namastedev.com/api/v1/listRestaurants",
-    );
+    try {
+      const fetchApiCall = await fetch(
+        "https://namastedev.com/api/v1/listRestaurants",
+      );
 
-    const dataRes = await fetchApiCall.json();
+      if (!fetchApiCall.ok) {
+        throw new Error(`Restaurant API returned ${fetchApiCall.status}`);
+      }
 
-    setListofRestraunts(
-      dataRes.data.data.cards[1].card.card.gridElements.infoWithStyle
-        .restaurants,
-    );
+      const dataRes = await fetchApiCall.json();
+      const restaurants =
+        dataRes?.data?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants;
 
-    setFilterRestro(
-      dataRes.data.data.cards[1].card.card.gridElements.infoWithStyle
-        .restaurants,
-    );
+      if (!Array.isArray(restaurants)) {
+        throw new Error("Restaurant data is missing or invalid");
+      }
+
+      setListofRestraunts(restaurants);
+      setFilterRestro(restaurants);
+    } catch (error) {
+      console.error("Unable to load restaurants", error);
+      setFetchError(
+        "Unable to load restaurants right now. Please try again later.",
+      );
+    }
   };
 
+  if (!onlineStatus) {
+    return (
+      <p className="fetch-error">
+        You are offline. Please check your connection.
+      </p>
+    );
+  }
   //React Local state varible  - Hook concept - for mormal js function
+
+  if (fetchError) {
+    return <p className="fetch-error">{fetchError}</p>;
+  }
 
   return listOfRestraunts.length === 0 ? (
     <Shimmer />
